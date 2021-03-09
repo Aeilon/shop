@@ -3,6 +3,7 @@ import TopBar from "./components/TopBar";
 import NavBar from "./components/NavBar";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Footer from "./components/Footer";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -12,10 +13,11 @@ const GlobalStyle = createGlobalStyle`
    box-sizing: border-box;
    margin: 0;
    padding: 0;
+   font-family: "Inter", sans-serif;
   }
   html{
   scroll-behavior: smooth;
-  font-family: "Inter", sans-serif;
+  
 
 
 
@@ -32,6 +34,7 @@ const App: React.FC = () => {
           <GlobalStyle />
           <TopBar />
           <NavBar />
+          <Footer />
         </div>
       </ThemeProvider>
     </Router>

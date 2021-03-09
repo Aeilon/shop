@@ -22,7 +22,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 1.5rem;
   margin-right: 2rem;
-  font-family: "Inter", sans-serif;
   font-weight: 500;
   &:hover {
     color: #656666;
