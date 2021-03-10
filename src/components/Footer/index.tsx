@@ -7,12 +7,12 @@ import appstore from "../../images/appstore.png";
 const Main = styled.div`
   height: 33rem;
   width: 100%;
-  border-top: 1px solid #ced4da;
+  border-top: 1px solid ${({ theme }) => theme.color.light};
 `;
 
 const Wrapper = styled.div`
   height: 26rem;
-  width: 60%;
+  width: ${({ theme }) => theme.wrapperWidth};
   margin: auto;
   display: flex;
   align-items: flex-start;
@@ -37,19 +37,19 @@ const ListItem = styled.li`
   cursor: pointer;
 
   &:hover {
-    color: #0e4add;
+    color: ${({ theme }) => theme.color.primaryDark};
   }
 `;
 
 const BottomFooter = styled.div`
   height: 7rem;
   width: 100%;
-  border-top: 1px solid #ced4da;
+  border-top: 1px solid ${({ theme }) => theme.color.light};
 `;
 
 const BottomWrapper = styled.div`
   height: 100%;
-  width: 60%;
+  width: ${({ theme }) => theme.wrapperWidth};
   margin: auto;
   display: flex;
   align-items: center;
@@ -57,13 +57,13 @@ const BottomWrapper = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: #3167eb;
+  color: ${({ theme }) => theme.color.primary};
   text-decoration: none;
   font-size: 1.5rem;
   margin-left: 1rem;
   font-weight: 400;
   &:hover {
-    color: #0e4add;
+    color: ${({ theme }) => theme.color.primaryDark};
   }
 `;
 

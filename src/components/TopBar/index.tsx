@@ -5,7 +5,7 @@ import search from "../../images/search.png";
 
 const Wrapper = styled.div`
   height: 6.8rem;
-  width: 60%;
+  width: ${({ theme }) => theme.wrapperWidth};
   margin: auto;
   display: flex;
   justify-content: flex-start;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Main = styled.div`
   height: 6.8rem;
   width: 100%;
-  border-bottom: 1px solid #ced4da;
+  border-bottom: 1px solid ${({ theme }) => theme.color.light};
 `;
 
 const LogoBox = styled.div`
@@ -46,36 +46,37 @@ const ButtonBox = styled.div`
 const StyledInput = styled.input`
   height: 3.8rem;
   width: 40rem;
-  background: white;
+  background: ${({ theme }) => theme.color.white};
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  color: ${({ theme }) => theme.color.grayDark};
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid ${({ theme }) => theme.color.light};
   border-top-left-radius: 0.37rem;
   border-bottom-left-radius: 0.37rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   padding-left: 1.5rem;
 
   &:focus {
-    box-shadow: 0 0 3px #5f89f0;
+    box-shadow: 0 0 3px ${({ theme }) => theme.color.primaryLight};
     outline-offset: 0px;
     outline: none;
+    transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
   }
 
   &::placeholder {
-    color: #ced4da;
+    color: ${({ theme }) => theme.color.light};
     font-size: 1.2rem;
   }
 `;
 
 const LoginButton = styled.button`
-  color: #3167eb;
-  border: 1px solid #3167eb;
+  color: ${({ theme }) => theme.color.primary};
+  border: 1px solid ${({ theme }) => theme.color.primary};
   height: 3.75rem;
   width: 6.7rem;
-  background: white;
+  background: ${({ theme }) => theme.color.white};
   font-size: 1.5rem;
   font-weight: 500;
   margin-right: 1rem;
@@ -84,25 +85,27 @@ const LoginButton = styled.button`
   transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
 
   &:hover {
-    background: #376cec;
-    color: white;
+    background: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.white};
     transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
   }
 `;
 
 const SignUpButton = styled(LoginButton)`
-  color: white;
-  background-color: #3167eb;
-  border-color: #3167eb;
+  color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.color.primary};
+  border-color: ${({ theme }) => theme.color.primary};
   width: 8.1rem;
+  transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
 
   &:hover {
-    background-color: #376bf1;
+    background-color: ${({ theme }) => theme.color.primaryDark};
+    transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
   }
 `;
 
 const SearchButton = styled.button`
-  background-color: #3167eb;
+  background-color: ${({ theme }) => theme.color.primary};
   height: 4.2rem;
   width: 4.5rem;
   border-top-right-radius: 0.37rem;
@@ -112,15 +115,17 @@ const SearchButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
 
   &:focus {
     border: none;
     outline-offset: 0px;
     outline: none;
+    transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
   }
 
   &:hover {
-    background: #376cec;
+    background: ${({ theme }) => theme.color.primaryDark};
   }
 `;
 const SearchIcon = styled.img`

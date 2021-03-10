@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Footer from "./components/Footer";
+import { theme } from "./constans/theme";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -17,16 +18,10 @@ const GlobalStyle = createGlobalStyle`
   }
   html{
   scroll-behavior: smooth;
-  
-
-
-
   }
 `;
 
 const App: React.FC = () => {
-  const theme = {};
-
   return (
     <Router>
       <ThemeProvider theme={theme}>

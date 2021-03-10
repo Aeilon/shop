@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   height: 5.4rem;
-  width: 60%;
+  width: ${({ theme }) => theme.wrapperWidth};
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -18,13 +18,13 @@ const LinksBox = styled.div`
   justify-content: flex-start;
 `;
 const StyledLink = styled(Link)`
-  color: #1c1c1c;
+  color: ${({ theme }) => theme.color.dark};
   text-decoration: none;
   font-size: 1.5rem;
   margin-right: 2rem;
   font-weight: 500;
   &:hover {
-    color: #656666;
+    color: ${({ theme }) => theme.color.gray};
   }
 `;
 const SettingsBox = styled.div`
