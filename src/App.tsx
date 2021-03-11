@@ -5,15 +5,17 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import { theme } from "./constans/theme";
+import * as routes from "./constans/routes";
+import SignUpPage from "./pages/SignUpPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
    font-size: 62.5%;
-}
-  body {
-   box-sizing: border-box;
    margin: 0;
    padding: 0;
+   box-sizing: border-box;
+}
+  body {
    font-family: "Inter", sans-serif;
   }
   html{
@@ -28,7 +30,10 @@ const App: React.FC = () => {
         <div>
           <GlobalStyle />
           <TopBar />
-          <NavBar />
+          {/*<NavBar />*/}
+          <Switch>
+            <Route path={routes.SIGN_UP} component={SignUpPage} />
+          </Switch>
           <Footer />
         </div>
       </ThemeProvider>

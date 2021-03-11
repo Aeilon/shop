@@ -28,6 +28,7 @@ const StyledList = styled.ul`
 const ListHeader = styled.h3`
   font-size: 1.5rem;
   font-weight: 500;
+  line-height: 4rem;
 `;
 
 const ListItem = styled.li`

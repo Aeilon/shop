@@ -55,14 +55,14 @@ const StyledInput = styled.input`
   border: 1px solid ${({ theme }) => theme.color.light};
   border-top-left-radius: 0.37rem;
   border-bottom-left-radius: 0.37rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: box-shadow 0.15s ease-in-out;
   padding-left: 1.5rem;
 
   &:focus {
     box-shadow: 0 0 3px ${({ theme }) => theme.color.primaryLight};
-    outline-offset: 0px;
+    outline-offset: 0;
     outline: none;
-    transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
+    transition: box-shadow 0.15s ease-in-out;
   }
 
   &::placeholder {
@@ -106,8 +106,8 @@ const SignUpButton = styled(LoginButton)`
 
 const SearchButton = styled.button`
   background-color: ${({ theme }) => theme.color.primary};
-  height: 4.2rem;
-  width: 4.5rem;
+  height: 3.8rem;
+  width: 4rem;
   border-top-right-radius: 0.37rem;
   border-bottom-right-radius: 0.37rem;
   border: none;
