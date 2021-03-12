@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../../images/logo.png";
 import search from "../../images/search.png";
+import { useHistory } from "react-router-dom";
+import * as routes from "../../constans/routes";
 
 const Wrapper = styled.div`
   height: 6.8rem;
@@ -50,7 +52,7 @@ const StyledInput = styled.input`
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.5;
-  color: ${({ theme }) => theme.color.grayDark};
+  color: ${({ theme }) => theme.color.secondary};
   background-clip: padding-box;
   border: 1px solid ${({ theme }) => theme.color.light};
   border-top-left-radius: 0.37rem;
@@ -82,12 +84,17 @@ const LoginButton = styled.button`
   margin-right: 1rem;
   border-radius: 0.6rem;
   cursor: pointer;
-  transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
+  transition: background 0.05s ease-in-out;
 
   &:hover {
     background: ${({ theme }) => theme.color.primary};
     color: ${({ theme }) => theme.color.white};
-    transition: background 0.05s ease-in-out, color 0.15s ease-in-out;
+    transition: background 0.05s ease-in-out;
+  }
+
+  &:focus {
+    outline-offset: 0px;
+    outline: none;
   }
 `;
 
@@ -96,11 +103,11 @@ const SignUpButton = styled(LoginButton)`
   background-color: ${({ theme }) => theme.color.primary};
   border-color: ${({ theme }) => theme.color.primary};
   width: 8.1rem;
-  transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
+  transition: background 0.1s ease-in-out;
 
   &:hover {
     background-color: ${({ theme }) => theme.color.primaryDark};
-    transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
+    transition: background 0.1s ease-in-out;
   }
 `;
 
@@ -118,29 +125,31 @@ const SearchButton = styled.button`
   transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
 
   &:focus {
-    border: none;
     outline-offset: 0px;
     outline: none;
-    transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
   }
 
   &:hover {
     background: ${({ theme }) => theme.color.primaryDark};
   }
 `;
+
 const SearchIcon = styled.img`
   width: 4rem;
   height: 3.5rem;
 `;
 
 const TopBar = () => {
+  const history = useHistory();
+  const handleClick = (path: string) => {
+    history.push(path);
+  };
+
   return (
     <Main>
       <Wrapper>
         <LogoBox>
-          <a href="#">
-            <img src={logo} alt="logo" />
-          </a>
+          <img onClick={() => handleClick("/")} src={logo} alt="logo" />
         </LogoBox>
         <InputBox>
           <StyledInput type="text" placeholder="Search" />
@@ -153,8 +162,12 @@ const TopBar = () => {
           </SearchButton>
         </InputBox>
         <ButtonBox>
-          <LoginButton>Login</LoginButton>
-          <SignUpButton>Sign up</SignUpButton>
+          <LoginButton onClick={() => handleClick(routes.SIGN_IN)}>
+            Login
+          </LoginButton>
+          <SignUpButton onClick={() => handleClick(routes.SIGN_UP)}>
+            Sign up
+          </SignUpButton>
         </ButtonBox>
       </Wrapper>
     </Main>

@@ -16,6 +16,7 @@ const SignUpComponent = styled.div`
   width: 58rem;
   padding: 0 1.875rem;
   border: 1px solid ${({ theme }) => theme.color.light};
+  border-radius: 0.5rem;
   background: ${({ theme }) => theme.color.white};
   display: flex;
   flex-direction: column;
@@ -26,6 +27,7 @@ const Title = styled.h1`
   font-size: 2.6rem;
   color: ${({ theme }) => theme.color.grayDark};
   font-weight: bold;
+  line-height: 5.2rem;
 `;
 
 const InputsBox = styled.div`
@@ -149,6 +151,7 @@ const StyledLink = styled(Link)`
   font-size: 1.4rem;
   margin-left: 0.5rem;
   font-weight: 400;
+
   &:hover {
     color: ${({ theme }) => theme.color.primaryDark};
   }
@@ -203,11 +206,11 @@ const SignUpPage = () => {
         <InputsBox>
           <SmallInputBox>
             <Label>Create password</Label>
-            <StyledInput type="text" />
+            <StyledInput type="password" />
           </SmallInputBox>
           <SmallInputBox>
             <Label>Repeat password</Label>
-            <StyledInput type="text" />
+            <StyledInput type="password" />
           </SmallInputBox>
         </InputsBox>
         <RegisterButton>Register</RegisterButton>

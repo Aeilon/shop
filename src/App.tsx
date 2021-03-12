@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import { theme } from "./constans/theme";
 import * as routes from "./constans/routes";
 import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           {/*<NavBar />*/}
           <Switch>
             <Route path={routes.SIGN_UP} component={SignUpPage} />
+            <Route path={routes.SIGN_IN} component={SignInPage} />
           </Switch>
           <Footer />
         </div>
