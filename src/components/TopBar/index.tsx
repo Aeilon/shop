@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import * as routes from "../../constans/routes";
 import logo from "../../images/logo.png";
 import search from "../../images/search.png";
 import { useHistory } from "react-router-dom";
-import * as routes from "../../constans/routes";
+import { useFirebase } from "react-redux-firebase";
+import "firebase/auth";
 
 const Wrapper = styled.div`
   height: 6.8rem;
@@ -93,7 +95,7 @@ const LoginButton = styled.button`
   }
 
   &:focus {
-    outline-offset: 0px;
+    outline-offset: 0;
     outline: none;
   }
 `;
@@ -125,7 +127,7 @@ const SearchButton = styled.button`
   transition: background 0.1s ease-in-out, color 0.15s ease-in-out;
 
   &:focus {
-    outline-offset: 0px;
+    outline-offset: 0;
     outline: none;
   }
 
@@ -140,16 +142,27 @@ const SearchIcon = styled.img`
 `;
 
 const TopBar = () => {
+  const firebase = useFirebase();
   const history = useHistory();
   const handleClick = (path: string) => {
     history.push(path);
+  };
+
+  const logOut = async () => {
+    try {
+      await firebase.logout();
+      history.push(routes.HOME);
+      alert("You have successfully logout your account.");
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   return (
     <Main>
       <Wrapper>
         <LogoBox>
-          <img onClick={() => handleClick("/")} src={logo} alt="logo" />
+          <img onClick={() => handleClick(routes.HOME)} src={logo} alt="logo" />
         </LogoBox>
         <InputBox>
           <StyledInput type="text" placeholder="Search" />
@@ -168,6 +181,12 @@ const TopBar = () => {
           <SignUpButton onClick={() => handleClick(routes.SIGN_UP)}>
             Sign up
           </SignUpButton>
+          <LoginButton
+            style={{ color: "gold", border: "1px solid gold" }}
+            onClick={logOut}
+          >
+            logout
+          </LoginButton>
         </ButtonBox>
       </Wrapper>
     </Main>

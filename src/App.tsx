@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <div>
           <GlobalStyle />
           <TopBar />
-          {/*<NavBar />*/}
+          <NavBar />
           <Switch>
             <Route path={routes.SIGN_UP} component={SignUpPage} />
             <Route path={routes.SIGN_IN} component={SignInPage} />

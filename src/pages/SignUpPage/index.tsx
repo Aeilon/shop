@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import "firebase/auth";
+import { useFirebase } from "react-redux-firebase";
+import * as routes from "../../constans/routes";
 
 const Main = styled.div`
   width: 100%;
@@ -58,6 +61,9 @@ const StyledInput = styled.input`
   font-size: 1.5rem;
   transition: box-shadow 0.15s ease-in-out;
   padding-left: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.color.secondary};
 
   &:focus {
     box-shadow: 0 0 3px ${({ theme }) => theme.color.primaryLight};
@@ -163,7 +169,54 @@ const StyledSpan = styled.span`
   font-weight: 400;
 `;
 
-const SignUpPage = () => {
+interface UserData {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+  gender: string;
+  city: string;
+  country: string;
+}
+
+const SignUpPage: React.FC = () => {
+  const firebase = useFirebase();
+  const history = useHistory();
+  const [userData, setUserData] = useState<UserData>({
+    email: "",
+    password: "",
+    name: "",
+    lastName: "",
+    gender: "",
+    city: "",
+    country: "",
+  });
+
+  const { email, password, name, lastName, gender, city, country } = userData;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setUserData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const signUp = async () => {
+    try {
+      await firebase.createUser(
+        {
+          email,
+          password,
+        },
+        { email, name, lastName, gender, city, country }
+      );
+      history.push(routes.HOME);
+
+      alert("You have successfully created your account.");
+    } catch (e) {
+      await alert(e.message);
+    }
+  };
+
   return (
     <Main>
       <SignUpComponent>
@@ -171,49 +224,91 @@ const SignUpPage = () => {
         <InputsBox>
           <SmallInputBox>
             <Label>First name</Label>
-            <StyledInput type="text" />
+            <StyledInput
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleChange}
+            />
           </SmallInputBox>
           <SmallInputBox>
             <Label>Last name</Label>
-            <StyledInput type="text" />
+            <StyledInput
+              type="text"
+              name="lastName"
+              value={lastName}
+              onChange={handleChange}
+            />
           </SmallInputBox>
         </InputsBox>
         <BigInputBox>
           <Label>Email</Label>
-          <StyledInput type="text" />
+          <StyledInput
+            type="text"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
         </BigInputBox>
         <FormText>We'll never share your email with anyone else.</FormText>
         <RadioInputsBox>
           <RadioInputBox>
-            <RadioInput type="radio" id="male" name="gender" value="male" />
+            <RadioInput
+              type="radio"
+              id="male"
+              name="gender"
+              value="male"
+              onChange={handleChange}
+            />
             <StyledLabel htmlFor="male">Male</StyledLabel>
           </RadioInputBox>
           <RadioInputBox>
-            <RadioInput type="radio" id="female" name="gender" value="female" />
+            <RadioInput
+              type="radio"
+              id="female"
+              name="gender"
+              value="female"
+              onChange={handleChange}
+            />
             <StyledLabel htmlFor="female">Female</StyledLabel>
           </RadioInputBox>
         </RadioInputsBox>
         <InputsBox>
           <SmallInputBox>
             <Label>City</Label>
-            <StyledInput type="text" />
+            <StyledInput
+              type="text"
+              name="city"
+              value={city}
+              onChange={handleChange}
+            />
           </SmallInputBox>
           <SmallInputBox>
             <Label>Country</Label>
-            <StyledInput type="text" />
+            <StyledInput
+              type="text"
+              name="country"
+              value={country}
+              onChange={handleChange}
+            />
           </SmallInputBox>
         </InputsBox>
         <InputsBox>
           <SmallInputBox>
             <Label>Create password</Label>
-            <StyledInput type="password" />
+            <StyledInput
+              type="password"
+              value={password}
+              name="password"
+              onChange={handleChange}
+            />
           </SmallInputBox>
           <SmallInputBox>
             <Label>Repeat password</Label>
             <StyledInput type="password" />
           </SmallInputBox>
         </InputsBox>
-        <RegisterButton>Register</RegisterButton>
+        <RegisterButton onClick={() => signUp()}>Register</RegisterButton>
         <Text>
           By clicking the 'Sign Up' button, you confirm that you accept our
           Terms of use and Privacy Policy.

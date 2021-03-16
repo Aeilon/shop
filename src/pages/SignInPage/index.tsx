@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { useFirebase } from "react-redux-firebase";
 import styled from "styled-components";
+import * as routes from "../../constans/routes";
+import { useHistory } from "react-router-dom";
 import google from "../../images/google.png";
 import facebook from "../../images/facebook.png";
-import userIcon from "../../images/userIcon.png";
 import passwordIcon from "../../images/passwordIcon.png";
+import emailIcon from "../../images/email.png";
 
 const Main = styled.div`
   width: 100%;
@@ -71,6 +74,11 @@ const Image = styled.img`
 
 const Icon = styled(Image)`
   margin: 0;
+`;
+
+const EmailIcon = styled(Icon)`
+  width: 2rem;
+  height: 2rem;
 `;
 
 const GoogleButton = styled(FacebookButton)`
@@ -165,7 +173,40 @@ const LoginButton = styled.button`
   }
 `;
 
+interface LoginData {
+  email: string;
+  password: string;
+}
+
 const SignInPage = () => {
+  const firebase = useFirebase();
+  const history = useHistory();
+  const [loginData, setLoginData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = loginData;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setLoginData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const signIn = async () => {
+    try {
+      await firebase.login({
+        email,
+        password,
+      });
+      history.push(routes.HOME);
+      alert("You have successfully logged in.");
+    } catch (e) {
+      await alert(e.message);
+    }
+  };
+
   return (
     <Main>
       <SignInComponent>
@@ -182,21 +223,33 @@ const SignInPage = () => {
         </GoogleButton>
         <InputBox>
           <IconBox>
-            <Icon src={userIcon} alt="search" />
+            <EmailIcon src={emailIcon} alt="search" />
           </IconBox>
-          <StyledInput type="text" placeholder="Username" />
+          <StyledInput
+            type="text"
+            placeholder="Email"
+            value={email}
+            name="email"
+            onChange={handleChange}
+          />
         </InputBox>
         <InputBox>
           <IconBox>
             <Icon src={passwordIcon} alt="search" />
           </IconBox>
-          <StyledInput type="text" placeholder="Password" />
+          <StyledInput
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handleChange}
+            name="password"
+          />
         </InputBox>
         <RadioInputBox>
           <RadioInput type="checkbox" id="remember" value="remember" />
           <StyledLabel htmlFor="remember">Remember</StyledLabel>
         </RadioInputBox>
-        <LoginButton>Login</LoginButton>
+        <LoginButton onClick={signIn}>Login</LoginButton>
       </SignInComponent>
     </Main>
   );
