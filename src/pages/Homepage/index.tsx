@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import banner from "../../images/banner.jpg";
+import Advantages from "./Advantages";
 
 const BannerDiv = styled.div`
   width: ${({ theme }) => theme.wrapperWidth};
@@ -14,9 +15,12 @@ const Banner = styled.img`
 
 const Homepage = () => {
   return (
-    <BannerDiv>
-      <Banner src={banner} alt="banner" />
-    </BannerDiv>
+    <>
+      <BannerDiv>
+        <Banner src={banner} alt="banner" />
+      </BannerDiv>
+      <Advantages />
+    </>
   );
 };
 
