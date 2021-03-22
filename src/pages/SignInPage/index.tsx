@@ -201,15 +201,18 @@ const SignInPage = () => {
         password,
       });
       history.push(routes.HOME);
-      alert("You have successfully logged in.");
     } catch (e) {
       await alert(e.message);
     }
   };
 
+  const handleKeyPress = async (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") await signIn();
+  };
+
   return (
     <Main>
-      <SignInComponent>
+      <SignInComponent onKeyUp={handleKeyPress}>
         <Title>Sign in</Title>
         <FacebookButton>
           <StyledSpan>

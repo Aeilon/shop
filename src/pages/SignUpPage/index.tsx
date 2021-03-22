@@ -217,9 +217,13 @@ const SignUpPage: React.FC = () => {
     }
   };
 
+  const handleKeyPress = async (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") await signUp();
+  };
+
   return (
     <Main>
-      <SignUpComponent>
+      <SignUpComponent onKeyUp={handleKeyPress}>
         <Title>Sign up</Title>
         <InputsBox>
           <SmallInputBox>

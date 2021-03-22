@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import * as routes from "../../constans/routes";
 import logo from "../../images/logo.png";
 import search from "../../images/search.png";
 import { useHistory } from "react-router-dom";
-import { useFirebase } from "react-redux-firebase";
 import "firebase/auth";
+import userIcon from "../../images/userIcon.png";
+import hearthIcon from "../../images/hearthIcon.png";
+import cartIcon from "../../images/cartIcon.png";
+import { useSelector } from "react-redux";
+import { useDetectOutsideClick } from "../../hooks/useDetectOutsideClick";
+import DropDownMenu from "./DropdownMenu";
 
 const Wrapper = styled.div`
   height: 6.8rem;
@@ -136,27 +141,77 @@ const SearchButton = styled.button`
   }
 `;
 
+const ItemCounterBox = styled.div`
+  width: 2.2rem;
+  height: 2rem;
+  position: absolute;
+  top: -0.3rem;
+  right: -1rem;
+  border: none;
+  border-radius: 100%;
+  background: ${({ theme }) => theme.color.red};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ItemNumber = styled.p`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.color.white};
+  user-select: none;
+`;
+
+const Circle = styled.div`
+  width: 4.8rem;
+  height: 4.8rem;
+  border: 1px solid ${({ theme }) => theme.color.light};
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1.5rem;
+  position: relative;
+  cursor: pointer;
+`;
+
+const UserIcon = styled.img`
+  width: 2.1rem;
+  height: 2.1rem;
+  filter: grayscale(90%);
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out;
+  user-select: none;
+
+  &:hover {
+    filter: grayscale(0);
+    transition: filter 0.1s ease-in-out;
+  }
+`;
+
+const HearthIcon = styled(UserIcon)`
+  margin-top: 0.2rem;
+`;
+
+const CartIcon = styled(UserIcon)`
+  margin-right: 0.35rem;
+`;
+
 const SearchIcon = styled.img`
   width: 4rem;
   height: 3.5rem;
 `;
 
 const TopBar = () => {
-  const firebase = useFirebase();
   const history = useHistory();
+  const dropdownRef = useRef<HTMLDivElement>(document.createElement("div"));
   const handleClick = (path: string) => {
     history.push(path);
   };
-
-  const logOut = async () => {
-    try {
-      await firebase.logout();
-      history.push(routes.HOME);
-      alert("You have successfully logout your account.");
-    } catch (e) {
-      alert(e.message);
-    }
-  };
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef);
+  const toggleActive = () => setIsActive(!isActive);
+  const { isLoaded, isEmpty } = useSelector(
+    (state: ISelector) => state.firebase.profile
+  );
 
   return (
     <Main>
@@ -167,26 +222,41 @@ const TopBar = () => {
         <InputBox>
           <StyledInput type="text" placeholder="Search" />
           <SearchButton>
-            <SearchIcon
-              src={search}
-              style={{ width: "4rem", height: "3.5rem" }}
-              alt="search"
-            />
+            <SearchIcon src={search} alt="search" />
           </SearchButton>
         </InputBox>
         <ButtonBox>
-          <LoginButton onClick={() => handleClick(routes.SIGN_IN)}>
-            Login
-          </LoginButton>
-          <SignUpButton onClick={() => handleClick(routes.SIGN_UP)}>
-            Sign up
-          </SignUpButton>
-          <LoginButton
-            style={{ color: "gold", border: "1px solid gold" }}
-            onClick={logOut}
-          >
-            logout
-          </LoginButton>
+          {!isEmpty && isLoaded ? (
+            <>
+              <Circle>
+                <CartIcon src={cartIcon} alt="cart" />
+                <ItemCounterBox>
+                  <ItemNumber>0</ItemNumber>
+                </ItemCounterBox>
+              </Circle>
+              <Circle>
+                <HearthIcon src={hearthIcon} alt="favourites" />
+              </Circle>
+              <Circle onClick={() => toggleActive()}>
+                <UserIcon src={userIcon} alt="user" />
+                {isActive && (
+                  <DropDownMenu
+                    setIsActive={setIsActive}
+                    dropdownRef={dropdownRef}
+                  />
+                )}
+              </Circle>
+            </>
+          ) : (
+            <>
+              <LoginButton onClick={() => handleClick(routes.SIGN_IN)}>
+                Login
+              </LoginButton>
+              <SignUpButton onClick={() => handleClick(routes.SIGN_UP)}>
+                Sign up
+              </SignUpButton>
+            </>
+          )}
         </ButtonBox>
       </Wrapper>
     </Main>
