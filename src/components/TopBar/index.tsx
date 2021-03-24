@@ -49,7 +49,7 @@ const ButtonBox = styled.div`
   height: 100%;
   align-items: center;
   justify-content: flex-end;
-  width: 26.5rem;
+  width: 31rem;
 `;
 
 const StyledInput = styled.input`

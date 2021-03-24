@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import banner from "../../images/banner.jpg";
 import Advantages from "./Advantages";
+import CategoryItems from "./CategoryItems";
 
 const BannerDiv = styled.div`
   width: ${({ theme }) => theme.wrapperWidth};
@@ -20,6 +21,9 @@ const Homepage = () => {
         <Banner src={banner} alt="banner" />
       </BannerDiv>
       <Advantages />
+      <CategoryItems categoryName="Popular Products" />
+      <CategoryItems categoryName="New arrived" />
+      <CategoryItems categoryName="Recommended" />
     </>
   );
 };

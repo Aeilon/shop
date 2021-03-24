@@ -26,5 +26,5 @@ export const theme = {
     primaryLight: "#5f89f0",
     primaryDark: "#0b4ce9",
   },
-  wrapperWidth: "60%",
+  wrapperWidth: "63%",
 };
