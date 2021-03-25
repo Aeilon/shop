@@ -206,6 +206,27 @@ const SignInPage = () => {
     }
   };
 
+  type Site =
+    | "facebook"
+    | "google"
+    | "twitter"
+    | "github"
+    | "microsoft.com"
+    | "apple.com"
+    | "yahoo.com";
+
+  const signInWith = async (site: Site) => {
+    try {
+      await firebase.login({
+        provider: site,
+        type: "popup",
+      });
+      history.push(routes.HOME);
+    } catch (e) {
+      await alert(e.message);
+    }
+  };
+
   const handleKeyPress = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter") await signIn();
   };
@@ -214,12 +235,12 @@ const SignInPage = () => {
     <Main>
       <SignInComponent onKeyUp={handleKeyPress}>
         <Title>Sign in</Title>
-        <FacebookButton>
+        <FacebookButton onClick={() => signInWith("facebook")}>
           <StyledSpan>
             <Image src={facebook} alt="google" /> Sign in with Facebook
           </StyledSpan>
         </FacebookButton>
-        <GoogleButton>
+        <GoogleButton onClick={() => signInWith("google")}>
           <StyledSpan>
             <Image src={google} alt="google" /> Sign in with Google
           </StyledSpan>
