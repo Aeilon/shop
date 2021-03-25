@@ -3,6 +3,7 @@ import styled from "styled-components";
 import banner from "../../images/banner.jpg";
 import Advantages from "./Advantages";
 import CategoryItems from "./CategoryItems";
+import Brands from "./Brands";
 
 const BannerDiv = styled.div`
   width: ${({ theme }) => theme.wrapperWidth};
@@ -24,6 +25,7 @@ const Homepage = () => {
       <CategoryItems categoryName="Popular Products" />
       <CategoryItems categoryName="New arrived" />
       <CategoryItems categoryName="Recommended" />
+      <Brands />
     </>
   );
 };

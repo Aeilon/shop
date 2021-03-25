@@ -20,7 +20,6 @@ const CategoryBox = styled.div`
 
 const CategoryName = styled.h2`
   font-size: 2.8rem;
-  margin-left: 2rem;
 `;
 
 const ItemsBox = styled.div`
