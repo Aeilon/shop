@@ -22,9 +22,9 @@ const Homepage = () => {
         <Banner src={banner} alt="banner" />
       </BannerDiv>
       <Advantages />
-      <CategoryItems categoryName="Popular Products" />
-      <CategoryItems categoryName="New arrived" />
-      <CategoryItems categoryName="Recommended" />
+      <CategoryItems categoryTitle="Popular Products" categoryName="shoes" />
+      <CategoryItems categoryTitle="New arrived" categoryName="smartphones" />
+      <CategoryItems categoryTitle="Recommended" categoryName="smartphones" />
       <Brands />
     </>
   );

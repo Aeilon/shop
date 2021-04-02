@@ -1,4 +1,5 @@
 /// <reference types="react-scripts" />
+
 interface ISelector {
   firebase: {
     auth: {
@@ -16,4 +17,17 @@ interface ISelector {
       isEmpty: boolean;
     };
   };
+  firestore: {
+    ordered: {
+      items: Item[];
+    };
+  };
+}
+
+interface Item {
+  name: string;
+  price: number;
+  category: string;
+  isNew: boolean;
+  id: string;
 }

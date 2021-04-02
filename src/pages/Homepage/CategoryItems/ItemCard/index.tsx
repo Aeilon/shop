@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import banner from "../../../../images/banner.jpg";
+import "firebase/storage";
+import { useFirebase } from "react-redux-firebase";
+import noImage from "../../../../images/noImage.png";
 
-const ItemCard = styled.div`
+const Main = styled.div`
   height: 30.8rem;
   width: 27.5rem;
   border: 1px solid ${({ theme }) => theme.color.light};
   border-radius: 0.5rem;
   margin-top: 2rem;
-  margin-left: 2rem;
   display: flex;
   flex-direction: column;
+  position: relative;
   transition: box-shadow 0.25s ease-in-out;
 
   &:hover {
@@ -60,16 +62,69 @@ const ItemPrice = styled.p`
   font-size: 1.5rem;
   ${({ theme }) => theme.color.secondary};
 `;
-export default () => {
+
+const NewBox = styled.div`
+  position: absolute;
+  width: 3.5rem;
+  height: 1.6rem;
+  border-radius: 0.5rem;
+  background: #00b517;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 1rem;
+  left: 1rem;
+
+  p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+`;
+
+interface Props {
+  name: string;
+  price: number;
+  isNew: boolean;
+}
+
+const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
+  const firebase = useFirebase();
+  const storageRef = firebase.storage().ref();
+  const [imageUrl, setImageUrl] = useState("");
+
+  const imageUrlName = `${name
+    .toLowerCase()
+    .replaceAll(" ", "-")
+    .replace(".", "")}.png`;
+
+  storageRef
+    .child(imageUrlName)
+    .getDownloadURL()
+    .then((url) => {
+      setImageUrl(url);
+    })
+    .catch((error) => {
+      setImageUrl(noImage);
+    });
+
   return (
-    <ItemCard>
+    <Main>
+      {isNew && (
+        <NewBox>
+          <p>NEW</p>
+        </NewBox>
+      )}
+
       <ImageBox>
-        <Image src={banner} alt="xd" />
+        <Image src={imageUrl} alt={name} />
       </ImageBox>
       <ItemDescription>
-        <ItemName>Bell & Ross Nightlum</ItemName>
-        <ItemPrice>$3753.00</ItemPrice>
+        <ItemName>{name}</ItemName>
+        <ItemPrice>${price}</ItemPrice>
       </ItemDescription>
-    </ItemCard>
+    </Main>
   );
 };
+
+export default ItemCard;
