@@ -36,11 +36,13 @@ const BrandsBox = styled.div`
 
 const Logo = styled.img`
   filter: grayscale(100%);
-  transition: filter 2s ease-in-out;
+  opacity: 0.7;
+  transition: filter 2s ease-in-out, opacity 2s ease-in-out;
 
   &:hover {
     filter: grayscale(0);
-    transition: filter 0.15s ease-in-out;
+    opacity: 1;
+    transition: filter 0.15s ease-in-out, opacity 0.1s ease-in-out;
   }
 `;
 

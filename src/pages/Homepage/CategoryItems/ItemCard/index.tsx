@@ -3,6 +3,7 @@ import styled from "styled-components";
 import "firebase/storage";
 import { useFirebase } from "react-redux-firebase";
 import noImage from "../../../../images/noImage.png";
+import hearthIcon from "../../../../images/hearthIcon.png";
 
 const Main = styled.div`
   height: 30.8rem;
@@ -16,9 +17,9 @@ const Main = styled.div`
   transition: box-shadow 0.25s ease-in-out;
 
   &:hover {
-    -webkit-box-shadow: 0px 0px 27px -8px ${({ theme }) => theme.color.light};
-    -moz-box-shadow: 0px 0px 27px -8px ${({ theme }) => theme.color.light};
-    box-shadow: 0px 0px 27px -8px ${({ theme }) => theme.color.light};
+    -webkit-box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
+    -moz-box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
+    box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
     transition: box-shadow 0.25s ease-in-out;
   }
 `;
@@ -73,12 +74,29 @@ const NewBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 1rem;
-  left: 1rem;
+  top: 1.5rem;
+  left: 1.5rem;
 
   p {
     font-size: 1rem;
     font-weight: bold;
+  }
+`;
+
+const FavoriteIcon = styled.img`
+  position: absolute;
+  height: 1.6rem;
+  width: 1.6rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  filter: grayscale(100%);
+  opacity: 0.4;
+  transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
   }
 `;
 
@@ -115,7 +133,7 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
           <p>NEW</p>
         </NewBox>
       )}
-
+      <FavoriteIcon src={hearthIcon} />
       <ImageBox>
         <Image src={imageUrl} alt={name} />
       </ImageBox>
