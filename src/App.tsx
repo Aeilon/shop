@@ -9,6 +9,7 @@ import * as routes from "./constans/routes";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Homepage from "./pages/Homepage";
+import CategoryPage from "./pages/CategoryPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -37,6 +38,7 @@ const App: React.FC = () => {
             <Route exact path={routes.HOME} component={Homepage} />
             <Route path={routes.SIGN_UP} component={SignUpPage} />
             <Route path={routes.SIGN_IN} component={SignInPage} />
+            <Route path="/category/:category" component={CategoryPage} />
           </Switch>
           <Footer />
         </div>

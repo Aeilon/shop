@@ -22,7 +22,7 @@ export const theme = {
     warning: "#ff9017",
     danger: "#fa3434",
     light: "#ced4da",
-    dark: "#212529",
+    dark: "#343a40",
     primaryLight: "#5f89f0",
     primaryDark: "#0b4ce9",
   },

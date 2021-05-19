@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useFirestoreConnect } from "react-redux-firebase";
+import { useSelector } from "react-redux";
+import * as routes from "../../constans/routes";
 
 const Wrapper = styled.div`
   height: 5.4rem;
@@ -36,14 +39,29 @@ const SettingsBox = styled.div`
 `;
 
 const NavBar = () => {
+  useFirestoreConnect([
+    {
+      collection: "categories",
+    },
+  ]);
+  const categories = useSelector(
+    (state: ISelector) => state.firestore.ordered.categories
+  );
+
   return (
     <Wrapper>
       <LinksBox>
-        <StyledLink to={""}>Home</StyledLink>
-        <StyledLink to={""}>Fashion</StyledLink>
-        <StyledLink to={""}>Supermarket</StyledLink>
-        <StyledLink to={""}>Electronics</StyledLink>
-        <StyledLink to={""}>Baby & Toys</StyledLink>
+        <StyledLink to={routes.HOME}>Home</StyledLink>
+
+        {categories &&
+          categories.map((cat) => {
+            const { category } = cat;
+            return (
+              <StyledLink to={`${routes.CATEGORY}/${category}`}>
+                {category}
+              </StyledLink>
+            );
+          })}
       </LinksBox>
 
       <SettingsBox>

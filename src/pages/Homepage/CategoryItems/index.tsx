@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ItemCard from "./ItemCard";
+import ItemCard from "../../../components/ItemCard";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect } from "react-redux-firebase";
 import "firebase/storage";

@@ -1,5 +1,7 @@
 /// <reference types="react-scripts" />
-
+interface Category {
+  category: string;
+}
 interface ISelector {
   firebase: {
     auth: {
@@ -19,9 +21,11 @@ interface ISelector {
   };
   firestore: {
     ordered: {
+      categories: Category[];
       items: Item[];
     };
   };
+  view: string;
 }
 
 interface Item {
