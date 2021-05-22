@@ -1,12 +1,109 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import noImage from "../../images/noImage.png";
-import hearthIcon from "../../images/hearthIcon.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { useFirebase } from "react-redux-firebase";
 
-const MainLarge = styled.div`
+export const MainGrid = styled.div`
+  height: 30.8rem;
+  width: 27.5rem;
+  border: 1px solid ${({ theme }) => theme.color.light};
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.25s ease-in-out;
+
+  &:hover {
+    -webkit-box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
+    -moz-box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
+    box-shadow: 0 0 27px -8px ${({ theme }) => theme.color.light};
+    transition: box-shadow 0.25s ease-in-out;
+  }
+`;
+
+export const ImageBoxGrid = styled.div`
+  height: 22rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ItemDescription = styled.div`
+  height: 8.8rem;
+  width: 100%;
+  padding: 1.8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 1px solid ${({ theme }) => theme.color.light};
+`;
+
+export const ItemName = styled.p`
+  font-weight: 400;
+  font-size: 1.5rem;
+  transition: color 0.1s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.color.primary};
+    transition: color 0.1s ease-in-out;
+  }
+`;
+
+export const ItemPrice = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  p:nth-child(2) {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    color: #969696;
+    text-decoration: line-through;
+  }
+`;
+
+export const NewBoxGrid = styled.div`
+  position: absolute;
+  width: 3.5rem;
+  height: 1.6rem;
+  border-radius: 0.5rem;
+  background: #00b517;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 1.5rem;
+  left: 1.5rem;
+
+  p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+`;
+
+export const FavoriteIcon = styled.img`
+  position: absolute;
+  height: 1.6rem;
+  width: 1.6rem;
+  cursor: pointer;
+  top: 1.5rem;
+  right: 1.5rem;
+  filter: grayscale(100%);
+  opacity: 0.4;
+  transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
+  }
+`;
+
+export const MainLarge = styled.div`
   height: 22rem;
   width: 100%;
   display: flex;
@@ -16,7 +113,7 @@ const MainLarge = styled.div`
   margin-top: 1.5rem;
 `;
 
-const ImageBox = styled.div`
+export const ImageBoxLarge = styled.div`
   height: 100%;
   width: 21.95rem;
   display: flex;
@@ -24,7 +121,7 @@ const ImageBox = styled.div`
   align-items: center;
 `;
 
-const CenterDiv = styled.div`
+export const CenterDiv = styled.div`
   height: 100%;
   width: 43.9rem;
   padding: 2.25rem 1.5rem;
@@ -33,7 +130,7 @@ const CenterDiv = styled.div`
   justify-content: space-between;
 `;
 
-const TitleBox = styled.div`
+export const TitleBox = styled.div`
   width: 100%;
   height: 20%;
 
@@ -42,7 +139,7 @@ const TitleBox = styled.div`
   }
 `;
 
-const RateBox = styled.div`
+export const RateBox = styled.div`
   width: 100%;
   height: 20%;
 
@@ -53,7 +150,7 @@ const RateBox = styled.div`
   }
 `;
 
-const DescriptionBox = styled.div`
+export const DescriptionBox = styled.div`
   width: 100%;
   height: 60%;
 
@@ -64,7 +161,7 @@ const DescriptionBox = styled.div`
   }
 `;
 
-const AsideDiv = styled.div`
+export const AsideDiv = styled.div`
   height: 100%;
   width: 21.95rem;
   display: flex;
@@ -74,7 +171,7 @@ const AsideDiv = styled.div`
   padding: 2.25rem 1.5rem;
 `;
 
-const PriceBox = styled.div`
+export const PriceBox = styled.div`
   width: 100%;
   height: 40%;
   display: flex;
@@ -92,7 +189,7 @@ const PriceBox = styled.div`
     text-decoration: line-through;
   }
 `;
-const ButtonBox = styled.div`
+export const ButtonBox = styled.div`
   width: 100%;
   height: 50%;
   display: flex;
@@ -100,12 +197,12 @@ const ButtonBox = styled.div`
   justify-content: space-between;
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
   height: 75%;
   width: 75%;
 `;
 
-const NewBox = styled.div`
+export const NewBoxLarge = styled.div`
   position: absolute;
   width: 3.5rem;
   height: 1.6rem;
@@ -124,7 +221,7 @@ const NewBox = styled.div`
   }
 `;
 
-const BlueButton = styled.button`
+export const BlueButton = styled.button`
   border: 1px solid ${({ theme }) => theme.color.primary};
   height: 3.75rem;
   font-size: 1.5rem;
@@ -142,7 +239,7 @@ const BlueButton = styled.button`
   }
 `;
 
-const WhiteButton = styled.button`
+export const WhiteButton = styled.button`
   border: 1px solid ${({ theme }) => theme.color.light};
   height: 3.75rem;
   font-size: 1.5rem;
@@ -171,84 +268,10 @@ const WhiteButton = styled.button`
   }
 `;
 
-const Star = styled(FontAwesomeIcon)`
+export const Star = styled(FontAwesomeIcon)`
   color: #f7a724;
 `;
 
-const EmptyStar = styled(FontAwesomeIcon)`
+export const EmptyStar = styled(FontAwesomeIcon)`
   color: #cccccc;
 `;
-
-interface Props {
-  name: string;
-  price: number;
-  isNew: boolean;
-}
-
-const LargeItemCard: React.FC<Props> = ({ name, price, isNew }) => {
-  const firebase = useFirebase();
-  const storageRef = firebase.storage().ref();
-  const [imageUrl, setImageUrl] = useState("");
-
-  const imageUrlName = `${name
-    .toLowerCase()
-    .replaceAll(" ", "-")
-    .replace(".", "")}.png`;
-
-  storageRef
-    .child(imageUrlName)
-    .getDownloadURL()
-    .then((url) => {
-      setImageUrl(url);
-    })
-    .catch((error) => {
-      setImageUrl(noImage);
-    });
-
-  return (
-    <MainLarge>
-      {isNew && (
-        <NewBox>
-          <p>NEW</p>
-        </NewBox>
-      )}
-      <ImageBox>
-        <Image src={imageUrl} alt={name} />
-      </ImageBox>
-      <CenterDiv>
-        <TitleBox>
-          <h5>{name}</h5>
-        </TitleBox>
-        <RateBox>
-          <p>
-            <Star icon={faStar} />
-            <Star icon={faStar} />
-            <Star icon={faStar} />
-            <EmptyStar icon={faStar} />
-            <EmptyStar icon={faStar} />
-          </p>
-        </RateBox>
-        <DescriptionBox>
-          <p>
-            Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing
-            elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut
-            wisi enim ad minim veniam
-          </p>
-        </DescriptionBox>
-      </CenterDiv>
-      <AsideDiv>
-        <PriceBox>
-          <p>${price}</p>
-        </PriceBox>
-        <ButtonBox>
-          <BlueButton>Details</BlueButton>
-          <WhiteButton>
-            <img src={hearthIcon} alt="hearth" /> Add to wishlist
-          </WhiteButton>
-        </ButtonBox>
-      </AsideDiv>
-    </MainLarge>
-  );
-};
-
-export default LargeItemCard;
