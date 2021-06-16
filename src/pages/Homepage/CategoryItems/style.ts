@@ -6,7 +6,6 @@ export const Main = styled.div`
   display: flex;
   flex-direction: column;
   margin: 4.5rem auto 0 auto;
-  cursor: pointer;
 `;
 
 export const CategoryBox = styled.div`

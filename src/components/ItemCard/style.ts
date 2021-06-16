@@ -42,6 +42,7 @@ export const ItemName = styled.p`
   font-weight: 400;
   font-size: 1.5rem;
   transition: color 0.1s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     color: ${({ theme }) => theme.color.primary};

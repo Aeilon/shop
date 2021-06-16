@@ -28,12 +28,19 @@ const CategoryItems: React.FC<Props> = (props) => {
       <ItemsBox>
         {items &&
           items.map((item) => {
-            const { name, price, id, category, isNew } = item;
+            const { name, price, id, category, isNew, images } = item;
 
             if (category !== props.categoryName) return;
 
             return (
-              <ItemCard name={name} price={price} key={id} isNew={isNew} />
+              <ItemCard
+                key={id}
+                name={name}
+                price={price}
+                id={id}
+                isNew={isNew}
+                images={images}
+              />
             );
           })}
       </ItemsBox>

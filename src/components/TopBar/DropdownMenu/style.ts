@@ -21,18 +21,6 @@ export const DropdownLine = styled.hr`
   width: 100%;
 `;
 
-export const DropdownItem = styled.div`
-  width: 100%;
-  background: ${({ theme }) => theme.color.white};
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background: #f8f8f8;
-  }
-`;
 export const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.color.grayDark};
   font-size: 1.5rem;
@@ -41,10 +29,6 @@ export const StyledLink = styled(Link)`
   font-weight: 400;
   width: 75%;
   margin: auto;
-
-  &:hover {
-    color: ${({ theme }) => theme.color.primary};
-  }
 `;
 
 export const StyledP = styled.p`
@@ -55,8 +39,25 @@ export const StyledP = styled.p`
   font-weight: 400;
   width: 75%;
   margin: auto;
+`;
+
+export const DropdownItem = styled.div`
+  width: 100%;
+  background: ${({ theme }) => theme.color.white};
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    color: ${({ theme }) => theme.color.primary};
+    background: #f8f8f8;
+
+    ${StyledLink} {
+      color: ${({ theme }) => theme.color.primary};
+    }
+
+    ${StyledP} {
+      color: ${({ theme }) => theme.color.primary};
+    }
   }
 `;

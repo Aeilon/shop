@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "firebase/storage";
+import { useLocation, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 import noImage from "../../images/noImage.png";
 import hearthIcon from "../../images/hearthIcon.png";
+import * as routes from "../../constans/routes";
 import { useSelector } from "react-redux";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -34,35 +36,30 @@ interface Props {
   name: string;
   price: number;
   isNew: boolean;
+  id: string;
+  images: string[];
 }
 
-const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
-  const firebase = useFirebase();
-  const storageRef = firebase.storage().ref();
-  const [imageUrl, setImageUrl] = useState("");
-  const view = useSelector((state: ISelector) => state.view);
-  const imageUrlName = `${name
-    .toLowerCase()
-    .replaceAll(" ", "-")
-    .replace(".", "")}.png`;
+const ItemCard: React.FC<Props> = ({ name, price, isNew, id, images }) => {
+  let view = useSelector((state: ISelector) => state.view);
+  const location = useLocation();
+  const history = useHistory();
+  if (location.pathname === routes.HOME) view = "grid";
 
-  React.useEffect(() => {
-    storageRef
-      .child(imageUrlName)
-      .getDownloadURL()
-      .then((url) => setImageUrl(url))
-      .catch((error) => setImageUrl(noImage));
-  }, []);
+  const clickHandle = (id: string) => {
+    history.push(`/item/${id}`);
+  };
+
   if (view === "large") {
     return (
-      <MainLarge>
+      <MainLarge key={id}>
         {isNew && (
           <NewBoxLarge>
             <p>NEW</p>
           </NewBoxLarge>
         )}
         <ImageBoxLarge>
-          <Image src={imageUrl} alt={name} />
+          <Image src={images[0]} alt={name} />
         </ImageBoxLarge>
         <CenterDiv>
           <TitleBox>
@@ -90,7 +87,7 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
             <p>${price}</p>
           </PriceBox>
           <ButtonBox>
-            <BlueButton>Details</BlueButton>
+            <BlueButton onClick={() => clickHandle(id)}>Details</BlueButton>
             <WhiteButton>
               <img src={hearthIcon} alt="hearth" /> Add to wishlist
             </WhiteButton>
@@ -100,7 +97,7 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
     );
   } else {
     return (
-      <MainGrid>
+      <MainGrid key={id}>
         {isNew && (
           <NewBoxGrid>
             <p>NEW</p>
@@ -108,10 +105,10 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew }) => {
         )}
         <FavoriteIcon src={hearthIcon} />
         <ImageBoxGrid>
-          <Image src={imageUrl} alt={name} />
+          <Image src={images[0]} alt={name} />
         </ImageBoxGrid>
         <ItemDescription>
-          <ItemName>{name}</ItemName>
+          <ItemName onClick={() => clickHandle(id)}>{name}</ItemName>
           <ItemPrice>
             <p>${price}</p>
           </ItemPrice>

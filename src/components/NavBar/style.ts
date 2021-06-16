@@ -15,6 +15,7 @@ export const LinksBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  text-transform: capitalize;
 `;
 export const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.color.dark};

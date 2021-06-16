@@ -48,7 +48,7 @@ const CategoryPage = () => {
     <>
       <TopBackground>
         <TitleBox>
-          <Title>Category products</Title>
+          <Title>{params.category}</Title>
         </TitleBox>
       </TopBackground>
       <Main>
@@ -72,14 +72,16 @@ const CategoryPage = () => {
               items
                 .filter((item) => item.category === params.category)
                 .map((item) => {
-                  const { name, price, id, isNew } = item;
+                  const { name, price, id, isNew, images } = item;
 
                   return (
                     <ItemCard
+                      key={id}
                       name={name}
                       price={price}
-                      key={id}
+                      id={id}
                       isNew={isNew}
+                      images={images}
                     />
                   );
                 })}

@@ -34,4 +34,5 @@ interface Item {
   category: string;
   isNew: boolean;
   id: string;
+  images: string[];
 }

@@ -19,6 +19,7 @@ export const TitleBox = styled.div`
 
 export const Title = styled.h2`
   font-size: 3.2rem;
+  text-transform: capitalize;
 `;
 
 export const Main = styled.div`

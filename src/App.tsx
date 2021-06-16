@@ -10,6 +10,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import Homepage from "./pages/Homepage";
 import CategoryPage from "./pages/CategoryPage";
+import ItemPage from "./pages/ItemPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             <Route path={routes.SIGN_UP} component={SignUpPage} />
             <Route path={routes.SIGN_IN} component={SignInPage} />
             <Route path="/category/:category" component={CategoryPage} />
+            <Route path="/item/:id" component={ItemPage} />
           </Switch>
           <Footer />
         </div>

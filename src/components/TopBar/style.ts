@@ -149,6 +149,23 @@ export const ItemNumber = styled.p`
   user-select: none;
 `;
 
+export const UserIcon = styled.img`
+  width: 2.1rem;
+  height: 2.1rem;
+  filter: grayscale(90%);
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out;
+  user-select: none;
+`;
+
+export const HearthIcon = styled(UserIcon)`
+  margin-top: 0.2rem;
+`;
+
+export const CartIcon = styled(UserIcon)`
+  margin-right: 0.35rem;
+`;
+
 export const Circle = styled.div`
   width: 4.8rem;
   height: 4.8rem;
@@ -160,28 +177,12 @@ export const Circle = styled.div`
   margin-right: 1.5rem;
   position: relative;
   cursor: pointer;
-`;
-
-export const UserIcon = styled.img`
-  width: 2.1rem;
-  height: 2.1rem;
-  filter: grayscale(90%);
-  cursor: pointer;
-  transition: filter 0.1s ease-in-out;
-  user-select: none;
-
   &:hover {
-    filter: grayscale(0);
-    transition: filter 0.1s ease-in-out;
+    ${UserIcon} {
+      filter: grayscale(0);
+      transition: filter 0.1s ease-in-out;
+    }
   }
-`;
-
-export const HearthIcon = styled(UserIcon)`
-  margin-top: 0.2rem;
-`;
-
-export const CartIcon = styled(UserIcon)`
-  margin-right: 0.35rem;
 `;
 
 export const SearchIcon = styled.img`
