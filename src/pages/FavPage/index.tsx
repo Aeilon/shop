@@ -1,10 +1,9 @@
 import React from "react";
-import ChangeViewButtons from "./ChangeViewButtons";
+import ChangeViewButtons from "../CategoryPage/ChangeViewButtons";
 import ItemCard from "../../components/ItemCard";
 import { useSelector } from "react-redux";
-import { useFirestoreConnect } from "react-redux-firebase";
+import { useHistory } from "react-router-dom";
 import "firebase/storage";
-import { useParams, useHistory } from "react-router-dom";
 import * as routes from "../../constans/routes";
 import {
   Main,
@@ -13,7 +12,6 @@ import {
   Title,
   MainBar,
   ItemList,
-  LeftSection,
   RightSection,
   NumberOfItems,
   Option,
@@ -21,41 +19,28 @@ import {
   TopBackground,
 } from "./style";
 
-interface Params {
-  category: string;
-}
-
 const CategoryPage = () => {
-  const params = useParams<Params>();
   const history = useHistory();
-  useFirestoreConnect([
-    {
-      collection: "items",
-    },
-  ]);
-  const items = useSelector(
-    (state: ISelector) => state.firestore.ordered.items
+  const { isLoaded, isEmpty, favItems } = useSelector(
+    (state: ISelector) => state.firebase.profile
   );
-
   const view = useSelector((state: ISelector) => state.view);
 
-  const itemCounter =
-    items && items.filter((item) => item.category === params.category).length;
-
-  if (itemCounter === 0) history.push(routes.HOME);
+  if (isLoaded && isEmpty) history.push(routes.HOME);
 
   return (
     <>
       <TopBackground>
         <TitleBox>
-          <Title>{params.category}</Title>
+          <Title>Favorite products</Title>
         </TitleBox>
       </TopBackground>
       <Main>
-        <LeftSection />
         <RightSection>
           <MainBar>
-            <NumberOfItems>{itemCounter} Items found</NumberOfItems>
+            <NumberOfItems>
+              {favItems && favItems.length} Items found
+            </NumberOfItems>
             <ButtonBox>
               <Select>
                 <Option value="latest">Latest items</Option>
@@ -68,14 +53,10 @@ const CategoryPage = () => {
           </MainBar>
 
           <ItemList view={view}>
-            {items &&
-              items
-                .filter((item) => item.category === params.category)
-                .map((item) => {
-                  const { id } = item;
-
-                  return <ItemCard key={id} id={id} />;
-                })}
+            {favItems &&
+              favItems.map((id) => {
+                return <ItemCard key={id} id={id} />;
+              })}
           </ItemList>
         </RightSection>
       </Main>

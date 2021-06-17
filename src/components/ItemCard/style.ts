@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const MainGrid = styled.div`
@@ -86,16 +86,26 @@ export const NewBoxGrid = styled.div`
   }
 `;
 
-export const FavoriteIcon = styled.img`
+export const FavoriteIcon = styled.img<{ isFav: boolean }>`
   position: absolute;
   height: 1.6rem;
   width: 1.6rem;
   cursor: pointer;
   top: 1.5rem;
   right: 1.5rem;
-  filter: grayscale(100%);
-  opacity: 0.4;
+
   transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
+
+  ${({ isFav }) =>
+    isFav
+      ? css`
+          filter: grayscale(0);
+          opacity: 1;
+        `
+      : css`
+          filter: grayscale(100%);
+          opacity: 0.4;
+        `}
 
   &:hover {
     filter: grayscale(0);
@@ -116,7 +126,7 @@ export const MainLarge = styled.div`
 
 export const ImageBoxLarge = styled.div`
   height: 100%;
-  width: 21.95rem;
+  min-width: 21.95rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +134,7 @@ export const ImageBoxLarge = styled.div`
 
 export const CenterDiv = styled.div`
   height: 100%;
-  width: 43.9rem;
+  min-width: 43.9rem;
   padding: 2.25rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -164,7 +174,7 @@ export const DescriptionBox = styled.div`
 
 export const AsideDiv = styled.div`
   height: 100%;
-  width: 21.95rem;
+  min-width: 21.95rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

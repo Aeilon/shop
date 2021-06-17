@@ -5,6 +5,7 @@ interface Category {
 interface ISelector {
   firebase: {
     auth: {
+      uid: string;
       isLoaded: boolean;
       isEmpty: boolean;
     };
@@ -17,6 +18,7 @@ interface ISelector {
       name: string;
       isLoaded: boolean;
       isEmpty: boolean;
+      favItems: string[];
     };
   };
   firestore: {

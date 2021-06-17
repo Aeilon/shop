@@ -62,7 +62,7 @@ const TopBar = () => {
                   <ItemNumber>0</ItemNumber>
                 </ItemCounterBox>
               </Circle>
-              <Circle>
+              <Circle onClick={() => handleClick("/favorites")}>
                 <HearthIcon src={hearthIcon} alt="favourites" />
               </Circle>
               <Circle onClick={() => toggleActive()}>

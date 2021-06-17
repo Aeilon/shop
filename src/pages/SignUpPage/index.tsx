@@ -32,6 +32,7 @@ interface UserData {
   gender: string;
   city: string;
   country: string;
+  favItems: string[];
 }
 
 const SignUpPage: React.FC = () => {
@@ -45,9 +46,19 @@ const SignUpPage: React.FC = () => {
     gender: "",
     city: "",
     country: "",
+    favItems: [],
   });
 
-  const { email, password, name, lastName, gender, city, country } = userData;
+  const {
+    email,
+    password,
+    name,
+    lastName,
+    gender,
+    city,
+    country,
+    favItems,
+  } = userData;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,7 +73,7 @@ const SignUpPage: React.FC = () => {
           email,
           password,
         },
-        { email, name, lastName, gender, city, country }
+        { email, name, lastName, gender, city, country, favItems }
       );
       history.push(routes.HOME);
 

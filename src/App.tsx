@@ -11,6 +11,7 @@ import SignInPage from "./pages/SignInPage";
 import Homepage from "./pages/Homepage";
 import CategoryPage from "./pages/CategoryPage";
 import ItemPage from "./pages/ItemPage";
+import FavPage from "./pages/FavPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -41,6 +42,7 @@ const App: React.FC = () => {
             <Route path={routes.SIGN_IN} component={SignInPage} />
             <Route path="/category/:category" component={CategoryPage} />
             <Route path="/item/:id" component={ItemPage} />
+            <Route path="/favorites" component={FavPage} />
           </Switch>
           <Footer />
         </div>

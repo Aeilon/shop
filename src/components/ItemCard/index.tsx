@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "firebase/storage";
 import { useLocation, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
@@ -33,14 +33,40 @@ import {
 } from "./style";
 
 interface Props {
+  id: string;
+}
+
+interface SingleItem {
   name: string;
   price: number;
+  category: string;
   isNew: boolean;
-  id: string;
   images: string[];
 }
 
-const ItemCard: React.FC<Props> = ({ name, price, isNew, id, images }) => {
+const ItemCard: React.FC<Props> = ({ id }) => {
+  const firebase = useFirebase();
+  const { isLoaded, isEmpty } = useSelector(
+    (state: ISelector) => state.firebase.profile
+  );
+  const [item, setItem] = useState<SingleItem>({
+    name: "",
+    price: 0,
+    category: "",
+    isNew: false,
+    images: [],
+  });
+  const [isFav, toggleFav] = useState(false);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("items")
+      .doc(id)
+      .get()
+      .then((snapshot) => setItem(snapshot.data() as SingleItem));
+  }, []);
+
   let view = useSelector((state: ISelector) => state.view);
   const location = useLocation();
   const history = useHistory();
@@ -50,20 +76,49 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew, id, images }) => {
     history.push(`/item/${id}`);
   };
 
+  const { favItems } = useSelector(
+    (state: ISelector) => state.firebase.profile
+  );
+
+  useEffect(() => {
+    toggleFav(false);
+    if (favItems && favItems.filter((item) => item === id).length > 0) {
+      toggleFav(true);
+    }
+
+    return;
+  }, [id, favItems, isFav]);
+
+  const addFavItem = async () => {
+    if (isLoaded && isEmpty)
+      return alert("Login to add products to your favorites");
+
+    if (favItems.filter((item) => item === id).length > 0) {
+      alert("You have removed the product to your favorites");
+      toggleFav(false);
+      return await firebase.updateProfile({
+        favItems: favItems.filter((item) => item !== id),
+      });
+    }
+    alert("You have added the product to your favorites");
+    await firebase.updateProfile({
+      favItems: !favItems ? [id] : [...favItems, id],
+    });
+  };
   if (view === "large") {
     return (
       <MainLarge key={id}>
-        {isNew && (
+        {item.isNew && (
           <NewBoxLarge>
             <p>NEW</p>
           </NewBoxLarge>
         )}
         <ImageBoxLarge>
-          <Image src={images[0]} alt={name} />
+          <Image src={item.images[0]} alt={item.name} />
         </ImageBoxLarge>
         <CenterDiv>
           <TitleBox>
-            <h5>{name}</h5>
+            <h5>{item.name}</h5>
           </TitleBox>
           <RateBox>
             <p>
@@ -84,12 +139,12 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew, id, images }) => {
         </CenterDiv>
         <AsideDiv>
           <PriceBox>
-            <p>${price}</p>
+            <p>${item.price}</p>
           </PriceBox>
           <ButtonBox>
             <BlueButton onClick={() => clickHandle(id)}>Details</BlueButton>
-            <WhiteButton>
-              <img src={hearthIcon} alt="hearth" /> Add to wishlist
+            <WhiteButton onClick={addFavItem}>
+              <img src={hearthIcon} alt="hearth" /> Add to favorites
             </WhiteButton>
           </ButtonBox>
         </AsideDiv>
@@ -98,19 +153,19 @@ const ItemCard: React.FC<Props> = ({ name, price, isNew, id, images }) => {
   } else {
     return (
       <MainGrid key={id}>
-        {isNew && (
+        {item.isNew && (
           <NewBoxGrid>
             <p>NEW</p>
           </NewBoxGrid>
         )}
-        <FavoriteIcon src={hearthIcon} />
+        <FavoriteIcon isFav={isFav} onClick={addFavItem} src={hearthIcon} />
         <ImageBoxGrid>
-          <Image src={images[0]} alt={name} />
+          <Image src={item.images[0]} alt={item.name} />
         </ImageBoxGrid>
         <ItemDescription>
-          <ItemName onClick={() => clickHandle(id)}>{name}</ItemName>
+          <ItemName onClick={() => clickHandle(id)}>{item.name}</ItemName>
           <ItemPrice>
-            <p>${price}</p>
+            <p>${item.price}</p>
           </ItemPrice>
         </ItemDescription>
       </MainGrid>
