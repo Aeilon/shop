@@ -2,6 +2,12 @@
 interface Category {
   category: string;
 }
+
+interface SingleItem {
+  id: string;
+  amount: number;
+}
+
 interface ISelector {
   firebase: {
     auth: {
@@ -19,12 +25,14 @@ interface ISelector {
       isLoaded: boolean;
       isEmpty: boolean;
       favItems: string[];
+      cartItems: SingleItem[];
     };
   };
   firestore: {
     ordered: {
       categories: Category[];
       items: Item[];
+      promocodes: Code[];
     };
   };
   view: string;
@@ -37,4 +45,10 @@ interface Item {
   isNew: boolean;
   id: string;
   images: string[];
+}
+
+interface Code {
+  code: string;
+  value: number;
+  type: string;
 }

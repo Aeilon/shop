@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const MainGrid = styled.div`
   height: 30.8rem;
   width: 27.5rem;
+  cursor: pointer;
   border: 1px solid ${({ theme }) => theme.color.light};
   border-radius: 0.5rem;
   margin-top: 2rem;
@@ -93,7 +94,6 @@ export const FavoriteIcon = styled.img<{ isFav: boolean }>`
   cursor: pointer;
   top: 1.5rem;
   right: 1.5rem;
-
   transition: filter 0.1s ease-in-out, opacity 0.1s ease-in-out;
 
   ${({ isFav }) =>
@@ -250,7 +250,7 @@ export const BlueButton = styled.button`
   }
 `;
 
-export const WhiteButton = styled.button`
+export const WhiteButton = styled.button<{ isFav: boolean }>`
   border: 1px solid ${({ theme }) => theme.color.light};
   height: 3.75rem;
   font-size: 1.5rem;
@@ -271,6 +271,7 @@ export const WhiteButton = styled.button`
     opacity: 0.8;
     height: 16px;
     filter: grayscale(100%);
+    display: ${({ isFav }) => (isFav ? "none" : "block")};
   }
 
   &:hover {

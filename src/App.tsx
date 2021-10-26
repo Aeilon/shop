@@ -12,6 +12,7 @@ import Homepage from "./pages/Homepage";
 import CategoryPage from "./pages/CategoryPage";
 import ItemPage from "./pages/ItemPage";
 import FavPage from "./pages/FavPage";
+import PaymentPage from "./pages/PaymentPage";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -20,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
    padding: 0;
    box-sizing: border-box;
 }
+  img{
+    user-select: none;
+  }
   body {
    font-family: "Inter", sans-serif;
   }
@@ -40,9 +44,13 @@ const App: React.FC = () => {
             <Route exact path={routes.HOME} component={Homepage} />
             <Route path={routes.SIGN_UP} component={SignUpPage} />
             <Route path={routes.SIGN_IN} component={SignInPage} />
-            <Route path="/category/:category" component={CategoryPage} />
-            <Route path="/item/:id" component={ItemPage} />
-            <Route path="/favorites" component={FavPage} />
+            <Route
+              path={`${routes.CATEGORY}/:category`}
+              component={CategoryPage}
+            />
+            <Route path={`${routes.ITEM}/:id`} component={ItemPage} />
+            <Route path={routes.FAVORITES} component={FavPage} />
+            <Route path={routes.PAYMENT} component={PaymentPage} />
           </Switch>
           <Footer />
         </div>

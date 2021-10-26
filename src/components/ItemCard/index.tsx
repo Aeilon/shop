@@ -90,21 +90,31 @@ const ItemCard: React.FC<Props> = ({ id }) => {
   }, [id, favItems, isFav]);
 
   const addFavItem = async () => {
-    if (isLoaded && isEmpty)
-      return alert("Login to add products to your favorites");
-
-    if (favItems.filter((item) => item === id).length > 0) {
-      alert("You have removed the product to your favorites");
-      toggleFav(false);
-      return await firebase.updateProfile({
-        favItems: favItems.filter((item) => item !== id),
-      });
-    }
     alert("You have added the product to your favorites");
     await firebase.updateProfile({
       favItems: !favItems ? [id] : [...favItems, id],
     });
   };
+
+  const removeFavItem = async () => {
+    alert("You have removed the product to your favorites");
+    toggleFav(false);
+    return await firebase.updateProfile({
+      favItems: favItems.filter((item) => item !== id),
+    });
+  };
+
+  const updateFavItem = async (e: any) => {
+    e.stopPropagation();
+    if (isLoaded && isEmpty)
+      return alert("Login to add products to your favorites");
+
+    if (favItems.filter((item) => item === id).length > 0) {
+      return await removeFavItem();
+    }
+    await addFavItem();
+  };
+
   if (view === "large") {
     return (
       <MainLarge key={id}>
@@ -143,8 +153,9 @@ const ItemCard: React.FC<Props> = ({ id }) => {
           </PriceBox>
           <ButtonBox>
             <BlueButton onClick={() => clickHandle(id)}>Details</BlueButton>
-            <WhiteButton onClick={addFavItem}>
-              <img src={hearthIcon} alt="hearth" /> Add to favorites
+            <WhiteButton isFav={isFav} onClick={updateFavItem}>
+              <img src={hearthIcon} alt="hearth" />
+              {isFav ? "Remove from favorites" : "Add to favorites"}
             </WhiteButton>
           </ButtonBox>
         </AsideDiv>
@@ -152,18 +163,18 @@ const ItemCard: React.FC<Props> = ({ id }) => {
     );
   } else {
     return (
-      <MainGrid key={id}>
+      <MainGrid key={id} onClick={() => clickHandle(id)}>
         {item.isNew && (
           <NewBoxGrid>
             <p>NEW</p>
           </NewBoxGrid>
         )}
-        <FavoriteIcon isFav={isFav} onClick={addFavItem} src={hearthIcon} />
+        <FavoriteIcon isFav={isFav} onClick={updateFavItem} src={hearthIcon} />
         <ImageBoxGrid>
           <Image src={item.images[0]} alt={item.name} />
         </ImageBoxGrid>
         <ItemDescription>
-          <ItemName onClick={() => clickHandle(id)}>{item.name}</ItemName>
+          <ItemName>{item.name}</ItemName>
           <ItemPrice>
             <p>${item.price}</p>
           </ItemPrice>

@@ -36,6 +36,7 @@ import {
   faCaretRight,
   faCaretLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 interface Params {
   id: string;
@@ -58,6 +59,7 @@ const ItemPage = () => {
   const [options, setOptions] = useState<Option>({});
   const params = useParams<Params>();
   const history = useHistory();
+  const [isFav, toggleFav] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [item, setItem] = useState<SingleItem>({
     name: "",
@@ -67,6 +69,10 @@ const ItemPage = () => {
     images: [],
     options: {},
   });
+
+  const { isLoaded, isEmpty, favItems, cartItems } = useSelector(
+    (state: ISelector) => state.firebase.profile
+  );
 
   const handleChange = (key: string, optionValue: string) => {
     setOptions((prevState) => ({ ...prevState, [key]: optionValue }));
@@ -85,6 +91,15 @@ const ItemPage = () => {
       .then((snapshot) => setItem(snapshot.data() as SingleItem));
   }, [params]);
 
+  useEffect(() => {
+    toggleFav(false);
+    if (favItems && favItems.filter((item) => item === params.id).length > 0) {
+      toggleFav(true);
+    }
+
+    return;
+  }, [params.id, favItems, isFav]);
+
   const nextImage = (index: number) => {
     if (index === item.images.length - 1) {
       setImageIndex(-1);
@@ -97,6 +112,49 @@ const ItemPage = () => {
       setImageIndex(item.images.length);
     }
     setImageIndex((index) => index - 1);
+  };
+
+  const addFavItem = async () => {
+    alert("You have added the product to your favorites");
+    await firebase.updateProfile({
+      favItems: !favItems ? [params.id] : [...favItems, params.id],
+    });
+  };
+  const addCartItem = async () => {
+    if (cartItems.filter((item) => item.id === params.id).length > 0) {
+      return alert("The product is already in your cart.");
+    } else {
+      alert("You have added the product to your cart");
+      await firebase.updateProfile({
+        cartItems: !cartItems
+          ? [params.id]
+          : [
+              ...cartItems,
+              {
+                id: params.id,
+                amount: 1,
+              },
+            ],
+      });
+    }
+  };
+
+  const removeFavItem = async () => {
+    alert("You have removed the product to your favorites");
+    toggleFav(false);
+    return await firebase.updateProfile({
+      favItems: favItems.filter((item) => item !== params.id),
+    });
+  };
+
+  const updateFavItem = async () => {
+    if (isLoaded && isEmpty)
+      return alert("Login to add products to your favorites");
+
+    if (favItems.filter((item) => item === params.id).length > 0) {
+      return await removeFavItem();
+    }
+    await addFavItem();
   };
 
   return (
@@ -142,9 +200,9 @@ const ItemPage = () => {
               <EmptyStar icon={faStar} />
               <EmptyStar icon={faStar} />
             </p>
-            <FavBox>
+            <FavBox onClick={updateFavItem}>
               <HearthIcon src={hearthIcon} alt="favourites" />
-              <p>Save for later</p>
+              <p>{isFav ? "Remove from favorites" : "Save for later"} </p>
             </FavBox>
           </TopSpanDiv>
         </TopInfo>
@@ -202,7 +260,7 @@ const ItemPage = () => {
         </PriceBox>
         <ButtonBox>
           <BlueButton>Buy now</BlueButton>
-          <WhiteButton>Add to card</WhiteButton>
+          <WhiteButton onClick={() => addCartItem()}>Add to card</WhiteButton>
         </ButtonBox>
       </ItemBox>
     </Main>

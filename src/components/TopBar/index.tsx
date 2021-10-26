@@ -10,6 +10,7 @@ import cartIcon from "../../images/cartIcon.png";
 import { useSelector } from "react-redux";
 import { useDetectOutsideClick } from "../../hooks/useDetectOutsideClick";
 import DropDownMenu from "./DropdownMenu";
+import CartMenu from "./CartMenu";
 import {
   Wrapper,
   ButtonBox,
@@ -32,12 +33,15 @@ import {
 const TopBar = () => {
   const history = useHistory();
   const dropdownRef = useRef<HTMLDivElement>(document.createElement("div"));
+  const cartRef = useRef<HTMLDivElement>(document.createElement("div"));
   const handleClick = (path: string) => {
     history.push(path);
   };
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef);
+  const [cartActive, setCartActive] = useDetectOutsideClick(cartRef);
   const toggleActive = () => setIsActive(!isActive);
-  const { isLoaded, isEmpty } = useSelector(
+  const toggleCart = () => setCartActive(!cartActive);
+  const { isLoaded, isEmpty, cartItems } = useSelector(
     (state: ISelector) => state.firebase.profile
   );
 
@@ -56,17 +60,25 @@ const TopBar = () => {
         <ButtonBox>
           {!isEmpty && isLoaded ? (
             <>
-              <Circle>
+              <Circle onClick={() => toggleCart()}>
                 <CartIcon src={cartIcon} alt="cart" />
+
                 <ItemCounterBox>
-                  <ItemNumber>0</ItemNumber>
+                  <ItemNumber>{cartItems.length}</ItemNumber>
                 </ItemCounterBox>
+
+                <CartMenu
+                  cartActive={cartActive}
+                  setCartActive={setCartActive}
+                  cartRef={cartRef}
+                />
               </Circle>
               <Circle onClick={() => handleClick("/favorites")}>
                 <HearthIcon src={hearthIcon} alt="favourites" />
               </Circle>
               <Circle onClick={() => toggleActive()}>
                 <UserIcon src={userIcon} alt="user" />
+
                 {isActive && (
                   <DropDownMenu
                     setIsActive={setIsActive}

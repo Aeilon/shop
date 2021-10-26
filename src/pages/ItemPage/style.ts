@@ -281,14 +281,13 @@ export const WhiteButton = styled.button`
 `;
 export const Arrows = styled.p`
   font-size: 3.5rem;
-`;
-export const ArrowRight = styled(FontAwesomeIcon)`
   height: 3rem;
   width: 3rem;
   cursor: pointer;
   position: absolute;
   right: 1rem;
 `;
+export const ArrowRight = styled(FontAwesomeIcon)``;
 
 export const ArrowLeft = styled(ArrowRight)`
   left: 1rem;
